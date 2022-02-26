@@ -1,15 +1,13 @@
 import ApiError from "../errors/ApiError.js"
-import { ProfileType } from "../models/index.js";
+import {ProfileType} from "../models/index.js";
 
-class ProfileTypeService {
+class profileTypeService {
     async create(name) {
         const existsProfileType = await ProfileType.findOne({where: {name}})
         if (existsProfileType) {
             throw ApiError.badRequest('ProfileType with this name already exists')
         }
-        const profileType = await ProfileType.create({name})
-        profileType.save()
-        return profileType
+        return await ProfileType.create({name})
     }
     async getAll(limit, offset) {
         return await ProfileType.findAndCountAll({limit, offset})
@@ -18,4 +16,4 @@ class ProfileTypeService {
         return await ProfileType.findOne({where: {id}})
     }
 }
-export default new ProfileTypeService()
+export default new profileTypeService()

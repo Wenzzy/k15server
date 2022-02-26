@@ -31,6 +31,8 @@ import {User} from "./User.js";
 import {UserRating} from "./UserRating.js";
 import {UserDialog} from "./UserDialog.js";
 import {WorkTime} from "./WorkTime.js";
+import {Otp} from "./Otp.js";
+import {UserRole} from "./UserRole.js";
 
 // Rating for user
 UserRating.belongsTo(User, { as:'user_from', foreignKey: 'user_from_id'});
@@ -38,8 +40,8 @@ UserRating.belongsTo(User, { as:'user_for', foreignKey: 'user_for_id'});
 
 
 // Roles and rights for user
-User.hasMany(Role)
-Role.belongsTo(User)
+User.belongsToMany(Role, { through: UserRole })
+Role.belongsToMany(User, { through: UserRole })
 
 Role.belongsToMany(Right, { through: RoleRight })
 Right.belongsToMany(Role, { through: RoleRight })
@@ -47,6 +49,9 @@ Right.belongsToMany(Role, { through: RoleRight })
 // Token for user
 User.hasOne(Token)
 Token.belongsTo(User)
+
+User.hasOne(Otp)
+Otp.belongsTo(User)
 
 // dialogs and messages for user
 User.belongsToMany(Dialog, { through: UserDialog })
@@ -153,6 +158,7 @@ export {
     User,
     UserRating,
     Token,
+    Otp,
     Profile,
     ProfileImage,
     ProfileType,
