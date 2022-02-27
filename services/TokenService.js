@@ -18,10 +18,7 @@ class tokenService {
             tokenData.token = refreshToken
             return tokenData.save()
         }
-
-        const newToken = await Token.create({token: refreshToken, userId})
-        console.log(newToken)
-        return newToken
+        return await Token.create({token: refreshToken, userId})
     }
 
     validateAccessToken(token) {

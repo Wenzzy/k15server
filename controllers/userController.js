@@ -1,5 +1,5 @@
 import ApiError from "../errors/ApiError.js"
-import userService from "../tokenService/userService.js";
+import userService from "../services/UserService.js";
 import {validationResult} from "express-validator";
 import Pagination from "../utils/Pagination.js";
 
@@ -60,9 +60,9 @@ class UserController {
         }
     }
 
-    async users(req, res, next) {
+    async getAll(req, res, next) {
         try {
-            res.json(await userService.getAllUsers(Pagination.get(req.query)))
+            res.json(await userService.getAll(Pagination.get(req.query)))
 
         } catch (e) {
             next(e)

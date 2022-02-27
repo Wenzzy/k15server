@@ -2,7 +2,8 @@ import {Router} from "express";
 import userController from "../controllers/userController.js";
 import {body} from "express-validator";
 import authMiddleware from "../middlewares/authMiddleware.js";
-import roleMiddleware from "../middlewares/roleMiddleware.js";
+import roleMiddleware from "../middlewares/PermissionMiddleware.js";
+import userRights from "../routePermissions/userPermissions.js";
 
 
 const router = new Router()
@@ -17,6 +18,6 @@ router.post('/',
 
 router.delete('/', userController.logout)
 router.get('/refresh', userController.refresh)
-router.get('/all', authMiddleware, roleMiddleware('api.users.all'), userController.users)
+router.get('/all', authMiddleware, roleMiddleware(userRights.getAll), userController.getAll)
 
 export default router

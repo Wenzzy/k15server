@@ -1,8 +1,8 @@
-import {Otp, User} from "../models/index.js";
+import {Otp, User, Role} from "../models/index.js";
 import ApiError from "../errors/ApiError.js";
-import TokenService from "./tokenService.js";
+import TokenService from "./TokenService.js";
 import UserDto from "../dtos/UserDto.js";
-import tokenService from "./tokenService.js";
+import tokenService from "./TokenService.js";
 import bcrypt from "bcrypt"
 import otpGenerator from "otp-generator"
 
@@ -17,7 +17,10 @@ class UserService {
         })
         const expires = Date.now() + (5 * 60 * 1000)
         const otpHash = await bcrypt.hash(otp, await bcrypt.genSalt(6))
-        if (!user) user = await User.create({phone})
+        if (!user) {
+            user = await User.create({phone})
+            await user.setRoles([1])
+        }
         const existsOtp = await Otp.findOne({ where: { user_id: user.id }})
         if (existsOtp) {
             existsOtp.otp = otpHash
@@ -69,10 +72,12 @@ class UserService {
         return {...tokens, user: userDto}
     }
 
-    async getAllUsers({limit, offset}) {
+    async getAll({limit, offset}) {
         return await User.findAndCountAll({limit, offset})
     }
-
+    async getOne(userId) {
+        return await User.findByPk(userId)
+    }
 }
 
 export default new UserService()

@@ -18,9 +18,9 @@ import {ProfileFuelType} from "./ProfileFuelType.js";
 import {ProfileImage} from "./ProfileImage.js";
 import {ProfileServiceType} from "./ProfileServiceType.js";
 import {ProfileType} from "./ProfileType.js";
-import {Right} from "./Right.js";
+import {Permission} from "./Permission.js";
 import {Role} from "./Role.js";
-import {RoleRight} from "./RoleRight.js";
+import {RolePermission} from "./RolePermission.js";
 import {ServiceType} from "./ServiceType.js";
 import {Ticket} from "./Ticket.js";
 import {TicketImage} from "./TicketImage.js";
@@ -43,8 +43,8 @@ UserRating.belongsTo(User, { as:'user_for', foreignKey: 'user_for_id'});
 User.belongsToMany(Role, { through: UserRole })
 Role.belongsToMany(User, { through: UserRole })
 
-Role.belongsToMany(Right, { through: RoleRight })
-Right.belongsToMany(Role, { through: RoleRight })
+Role.belongsToMany(Permission, { through: RolePermission })
+Permission.belongsToMany(Role, { through: RolePermission })
 
 // Token for user
 User.hasOne(Token)
@@ -157,6 +157,11 @@ OrganizationOvernight.belongsTo(OvernightType)
 export {
     User,
     UserRating,
+    UserDialog,
+    UserRole,
+    ProfileFuelType,
+    ProfileServiceType,
+    TicketServiceType,
     Token,
     Otp,
     Profile,
@@ -173,6 +178,7 @@ export {
     Message,
     TicketImage,
     Role,
+    RolePermission,
     Organization,
     OrganizationCaffe,
     OrganizationImage,
@@ -180,7 +186,7 @@ export {
     OrganizationParking,
     OrganizationType,
     OvernightType,
-    Right,
+    Permission,
     ServiceType,
     TicketView,
     WorkTime

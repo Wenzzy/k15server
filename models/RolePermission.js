@@ -1,6 +1,6 @@
 import sequelize from "../db.js"
 import {DataTypes} from "sequelize";
 
-export const RoleRight = sequelize.define('role_right', {
+export const RolePermission = sequelize.define('role_permission', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 })

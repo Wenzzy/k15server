@@ -21,6 +21,9 @@ class ApiError extends Error {
     static unAuth() {
         return ApiError.forbidden(`You are not authorized.`)
     }
+    static noPermissions() {
+        return ApiError.forbidden(`Access denied.`)
+    }
 }
 
 export default ApiError

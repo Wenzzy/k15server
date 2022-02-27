@@ -1,5 +1,5 @@
 import ApiError from "../errors/ApiError.js"
-import profileTypeService from "../tokenService/profileTypeService.js";
+import profileTypeService from "../services/ProfileTypeService.js";
 import Pagination from "../utils/Pagination.js";
 
 class profileTypeController {
@@ -13,8 +13,6 @@ class profileTypeController {
         } catch (e) {
             next(e)
         }
-
-
     }
 
     async getAll(req, res, next) {

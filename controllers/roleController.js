@@ -1,6 +1,6 @@
 import ApiError from "../errors/ApiError.js"
 
-class profileTypeController {
+class roleController {
     async create(req, res, next) {
         try {
 
@@ -10,21 +10,13 @@ class profileTypeController {
     }
 
     async getAll(req, res, next) {
-        try {
 
-        } catch (e) {
-            next(e)
-        }
     }
 
     async getOne(req, res, next) {
-        try {
 
-        } catch (e) {
-            next(e)
-        }
     }
 
 }
 
-export default new profileTypeController()
+export default new roleController()
