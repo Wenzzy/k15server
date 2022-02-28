@@ -20,6 +20,7 @@ class RoleService {
                 },
                 {
                     model: Permission,
+                    as: "Permissions",
                     attributes: ["id", "name"]
                 }
             ]

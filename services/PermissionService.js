@@ -5,7 +5,7 @@ class PermissionService {
     async checkPermissions(roles, permission) {
         let userPermissions = []
         roles.forEach(role => {
-            userPermissions = [...userPermissions, ...role.permissions]
+            userPermissions = [...userPermissions, ...role.Permissions]
         })
         return userPermissions.some(el => el.name === permission)
     }

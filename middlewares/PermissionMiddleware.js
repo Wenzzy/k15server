@@ -10,6 +10,5 @@ export default (permission) => async (req, res, next) => {
     if (!roles) return next(ApiError.noPermissions())
     const canWatch = await RightService.checkPermissions(roles, permission)
     if (!canWatch) return next(ApiError.noPermissions())
-    console.log(canWatch)
     next()
 }

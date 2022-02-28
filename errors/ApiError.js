@@ -15,6 +15,9 @@ class ApiError extends Error {
     static forbidden(message, errors=[]) {
         return new ApiError(403, message, errors)
     }
+    static notFound(message, errors=[]) {
+        return new ApiError(404, message, errors)
+    }
     static param(param) {
         return ApiError.badRequest(`No \`${param}\` parameter was specified.`)
     }

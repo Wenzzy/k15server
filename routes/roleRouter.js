@@ -1,5 +1,6 @@
 import {Router} from "express";
 import roleController from "../controllers/roleController.js";
+
 const router = new Router()
 
 router.post('/', roleController.create)
