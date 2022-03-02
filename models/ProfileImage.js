@@ -1,5 +1,5 @@
-import sequelize from "../db.js"
-import {DataTypes} from "sequelize";
+import sequelize from '../db.js'
+import {DataTypes} from 'sequelize';
 
 export const ProfileImage = sequelize.define('profile_image', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},

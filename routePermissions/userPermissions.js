@@ -1,4 +1,4 @@
 export default {
-    getAll: "api.user.getAll",
-    getOne: "api.user.getOne",
+    getAll: 'api.user.getAll',
+    getOne: 'api.user.getOne',
 }

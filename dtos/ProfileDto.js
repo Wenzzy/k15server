@@ -1,4 +1,4 @@
-import ApiError from "../errors/ApiError.js";
+import ApiError from '../errors/ApiError.js';
 
 export default class ProfileDto {
     id
@@ -13,7 +13,7 @@ export default class ProfileDto {
     auto_info
 
     constructor(model) {
-        if (!model) throw ApiError.notFound("Not Found.")
+        if (!model) throw ApiError.notFound('Not Found.')
 
         this.id = model.id
         this.full_name = model.full_name

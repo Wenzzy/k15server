@@ -1,5 +1,5 @@
-import sequelize from "../db.js"
-import {DataTypes} from "sequelize";
+import sequelize from '../db.js'
+import {DataTypes} from 'sequelize';
 
 export const Organization = sequelize.define('organization', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},

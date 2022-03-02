@@ -1,7 +1,7 @@
-import ApiError from "../errors/ApiError.js"
-import {ProfileType} from "../models/index.js";
+import ApiError from '../errors/ApiError.js'
+import {ProfileType} from '../models/index.js';
 
-class profileTypeService {
+class ProfileTypeService {
     async create(name) {
         const existsProfileType = await ProfileType.findOne({where: {name}})
         if (existsProfileType) {
@@ -16,4 +16,4 @@ class profileTypeService {
         return await ProfileType.findOne({where: {id}})
     }
 }
-export default new profileTypeService()
+export default new ProfileTypeService()

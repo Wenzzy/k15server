@@ -1,5 +1,5 @@
-import sequelize from "../db.js"
-import {DataTypes} from "sequelize";
+import sequelize from '../db.js'
+import {DataTypes} from 'sequelize';
 
 export const WorkTime = sequelize.define('work_time', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},

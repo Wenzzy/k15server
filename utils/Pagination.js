@@ -1,4 +1,4 @@
-class Pagination {
+export default class Pagination {
     static get = ({page, limit}) => {
         page = page || 1
         limit = limit || 10
@@ -11,5 +11,3 @@ class Pagination {
         }
     }
 }
-
-export default Pagination

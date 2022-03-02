@@ -1,72 +1,36 @@
-import ApiError from "../errors/ApiError.js"
-import userService from "../services/UserService.js";
-import {validationResult} from "express-validator";
-import Pagination from "../utils/Pagination.js";
+import userService from '../services/UserService.js';
+import Pagination from '../utils/Pagination.js';
+import Cookies from '../utils/Cookies.js';
 
 class UserController {
     async sendOtp(req, res, next) {
-        try {
-            const errors = validationResult(req)
-            if (!errors.isEmpty()) {
-                return next(ApiError.badRequest('Error of validation', errors.array()))
-            }
-            const {phone} = req.body
-            if (!phone) {
-                return next(ApiError.param('phone'))
-            }
-            res.json(await userService.sendOtp(phone))
-        } catch (e) {
-            next(e)
-        }
+        const {phone} = req.body
+        res.json(await userService.sendOtp(phone))
     }
 
     async login(req, res, next) {
-        try {
-            const {phone, otp} = req.body
-            if (!phone) {
-                return next(ApiError.param('phone'))
-            }
-            if (!otp) {
-                return next(ApiError.param('otp'))
-            }
-            const userData = await userService.login(phone, otp)
-            res.cookie('refreshToken', userData.refreshToken, {httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000})
-            res.json(userData)
-        } catch (e) {
-            next(e)
-        }
+        const {phone, otp} = req.body
+        const userData = await userService.login(phone, otp)
+        res.cookie(Cookies.refreshTokenField, userData.refreshToken, Cookies.refreshTokenOptions)
+        res.json(userData)
     }
 
     async logout(req, res, next) {
-        try {
-            const {refreshToken} = req.cookies
-            await userService.logout(refreshToken)
-            res.clearCookie('refreshToken')
-            res.json(true)
-
-        } catch (e) {
-            next(e)
-        }
+        const {refreshToken} = req.cookies
+        await userService.logout(refreshToken)
+        res.clearCookie(Cookies.refreshTokenField)
+        res.json(true)
     }
 
     async refresh(req, res, next) {
-        try {
-            const {refreshToken} = req.cookies
-            const userData = await userService.refresh(refreshToken)
-            res.cookie('refreshToken', userData.refreshToken, {httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000})
-            res.json(userData)
-        } catch (e) {
-            next(e)
-        }
+        const {refreshToken} = req.cookies
+        const userData = await userService.refresh(refreshToken)
+        res.cookie(Cookies.refreshTokenField, userData.refreshToken, Cookies.refreshTokenOptions)
+        res.json(userData)
     }
 
     async getAll(req, res, next) {
-        try {
-            res.json(await userService.getAll(Pagination.get(req.query)))
-
-        } catch (e) {
-            next(e)
-        }
+        res.json(await userService.getAll(Pagination.get(req.query)))
     }
 
 }

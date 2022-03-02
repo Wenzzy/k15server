@@ -1,5 +1,5 @@
-import sequelize from "../db.js"
-import {DataTypes} from "sequelize";
+import sequelize from '../db.js'
+import {DataTypes} from 'sequelize';
 
 export const AutoInfo = sequelize.define('auto_info', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},

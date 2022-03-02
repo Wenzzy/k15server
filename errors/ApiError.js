@@ -15,6 +15,9 @@ class ApiError extends Error {
     static forbidden(message, errors=[]) {
         return new ApiError(403, message, errors)
     }
+    static authorization(message, errors=[]) {
+        return new ApiError(401, message, errors)
+    }
     static notFound(message, errors=[]) {
         return new ApiError(404, message, errors)
     }
@@ -22,7 +25,7 @@ class ApiError extends Error {
         return ApiError.badRequest(`No \`${param}\` parameter was specified.`)
     }
     static unAuth() {
-        return ApiError.forbidden(`You are not authorized.`)
+        return ApiError.authorization(`You are not authorized.`)
     }
     static noPermissions() {
         return ApiError.forbidden(`Access denied.`)

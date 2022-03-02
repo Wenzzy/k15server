@@ -1,8 +1,7 @@
-import ApiError from "../errors/ApiError.js"
-import {Token} from "../models/index.js";
-import jwt from "jsonwebtoken"
+import {Token} from '../models/index.js';
+import jwt from 'jsonwebtoken'
 
-class tokenService {
+class TokenService {
     async generateTokens(payload) {
         const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_PRIVATE, {expiresIn: "1h"})
         const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_PRIVATE, {expiresIn: "30d"})
@@ -46,4 +45,4 @@ class tokenService {
     }
 }
 
-export default new tokenService()
+export default new TokenService()

@@ -1,10 +1,10 @@
-import {Otp, User, Role} from "../models/index.js";
-import ApiError from "../errors/ApiError.js";
-import TokenService from "./TokenService.js";
-import UserDto from "../dtos/UserDto.js";
-import tokenService from "./TokenService.js";
-import bcrypt from "bcrypt"
-import otpGenerator from "otp-generator"
+import {Otp, User} from '../models/index.js';
+import ApiError from '../errors/ApiError.js';
+import TokenService from './TokenService.js';
+import UserDto from '../dtos/UserDto.js';
+import tokenService from './TokenService.js';
+import bcrypt from 'bcrypt'
+import otpGenerator from 'otp-generator'
 
 class UserService {
     async sendOtp(phone) {
@@ -31,17 +31,17 @@ class UserService {
         }
         console.log(`TWILIO SENT CODE: ${otp}`)
         return {
-            message: "Sent."
+            message: 'Sent.'
         }
     }
 
     async login(phone, otp) {
         const userFind = await User.findOne({where: {phone}})
-        if (!userFind) throw ApiError.badRequest("User with this phone not registered.")
+        if (!userFind) throw ApiError.badRequest('User with this phone not registered.')
         const otpFind = await Otp.findOne({where: {user_id: userFind.id}})
-        if (!otpFind || otpFind.expires < Date.now()) throw ApiError.badRequest("Bad OTP.")
+        if (!otpFind || otpFind.expires < Date.now()) throw ApiError.badRequest('Bad OTP.')
         if (await bcrypt.compare(otp, otpFind.otp)) otpFind.destroy()
-        else throw ApiError.badRequest("Bad OTP.")
+        else throw ApiError.badRequest('Bad OTP.')
         return await this.generateTokensForUser(userFind)
     }
 
@@ -77,6 +77,9 @@ class UserService {
     }
     async getOne(userId) {
         return await User.findByPk(userId)
+    }
+    async checkUserExists(userId) {
+        return !!User.findByPk(userId, {attributes: ['id']})
     }
 }
 

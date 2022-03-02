@@ -1,5 +1,5 @@
-import {Permission} from "../models/index.js";
-import ApiError from "../errors/ApiError.js";
+import {Permission} from '../models/index.js';
+import ApiError from '../errors/ApiError.js';
 
 class PermissionService {
     async checkPermissions(roles, permission) {

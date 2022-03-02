@@ -1,6 +1,6 @@
-import ApiError from "../errors/ApiError.js"
-import tokenService from "../services/TokenService.js";
-import UserService from "../services/UserService.js";
+import ApiError from '../errors/ApiError.js'
+import tokenService from '../services/TokenService.js';
+import UserService from '../services/UserService.js';
 
 export default async (req, res, next) => {
     try {
@@ -10,8 +10,7 @@ export default async (req, res, next) => {
         if (!accessToken) return next(ApiError.unAuth())
         const userData = tokenService.validateAccessToken(accessToken)
         if (!userData) return next(ApiError.unAuth())
-        const userFind = await UserService.getOne(userData.id)
-        if (!userFind) return next(ApiError.unAuth())
+        if (await UserService.checkUserExists(userData.id)) return next(ApiError.unAuth())
         req.user = userData
         next()
     } catch (e) {

@@ -1,5 +1,5 @@
-import {User, Role, Permission, ProfileType} from "../models/index.js";
-import ApiError from "../errors/ApiError.js";
+import {User, Role, Permission, ProfileType} from '../models/index.js';
+import ApiError from '../errors/ApiError.js';
 
 class RoleService {
     async create(name, rights) {
@@ -16,12 +16,12 @@ class RoleService {
                 {
                     model: User,
                     where: {id: userId},
-                    attributes: ["id"]
+                    attributes: ['id']
                 },
                 {
                     model: Permission,
-                    as: "Permissions",
-                    attributes: ["id", "name"]
+                    as: 'Permissions',
+                    attributes: ['id', 'name']
                 }
             ]
         })

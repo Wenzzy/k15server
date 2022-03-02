@@ -40,45 +40,45 @@ UserRating.belongsTo(User, { as:'user_for', foreignKey: 'user_for_id'});
 
 
 // Roles and rights for user
-User.belongsToMany(Role, { as: 'Roles', through: UserRole, onDelete: "CASCADE" })
+User.belongsToMany(Role, { as: 'Roles', through: UserRole, onDelete: 'CASCADE' })
 Role.belongsToMany(User, { through: UserRole })
 
-Role.belongsToMany(Permission, { as: 'Permissions', through: RolePermission, onDelete: "CASCADE" })
+Role.belongsToMany(Permission, { as: 'Permissions', through: RolePermission, onDelete: 'CASCADE' })
 Permission.belongsToMany(Role, { through: RolePermission })
 
 // Token for user
 User.hasOne(Token, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 Token.belongsTo(User)
 
 User.hasOne(Otp, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 Otp.belongsTo(User)
 
 // dialogs and messages for user
-User.belongsToMany(Dialog, { as: 'Dialogs', through: UserDialog, onDelete: "CASCADE"})
+User.belongsToMany(Dialog, { as: 'Dialogs', through: UserDialog, onDelete: 'CASCADE'})
 Dialog.belongsToMany(User, { through: UserDialog })
 
 User.hasMany(Message, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 Message.belongsTo(User)
 
 Dialog.hasMany(Message, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 Message.belongsTo(Dialog)
 
 // additional messages on dialog
 Dialog.hasMany(Order, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 Order.belongsTo(Dialog)
 
 Dialog.hasMany(HelpMessage, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 HelpMessage.belongsTo(Dialog)
 
@@ -89,7 +89,7 @@ Dialog.belongsTo(Ticket)
 
 //Order
 User.hasMany(Order, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 Order.belongsTo(User)
 
@@ -99,37 +99,37 @@ Order.belongsTo(Ticket)
 
 //Ticket
 User.hasMany(Ticket, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 Ticket.belongsTo(User)
 
 Ticket.hasMany(TicketImage, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 TicketImage.belongsTo(Ticket)
 
 Ticket.hasMany(TicketView, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 TicketView.belongsTo(Ticket)
 
-Ticket.belongsToMany(ServiceType, { as: 'ServiceTypes', through: TicketServiceType, onDelete: "CASCADE" })
+Ticket.belongsToMany(ServiceType, { as: 'ServiceTypes', through: TicketServiceType, onDelete: 'CASCADE' })
 ServiceType.belongsToMany(Ticket, { through: TicketServiceType })
 
 User.hasOne(TicketView, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 TicketView.belongsTo(User)
 
 
 // Help ticket
 User.hasMany(HelpTicket, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 HelpTicket.belongsTo(User)
 
 HelpTicket.hasMany(HelpTicketImage, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 HelpTicketImage.belongsTo(HelpTicket)
 
@@ -137,43 +137,43 @@ HelpTicketImage.belongsTo(HelpTicket)
 //Profile
 
 User.hasOne(Profile, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 Profile.belongsTo(User)
 
-Profile.belongsToMany(ServiceType, { as: 'ServiceTypes', through: ProfileServiceType, onDelete: "CASCADE" })
+Profile.belongsToMany(ServiceType, { as: 'ServiceTypes', through: ProfileServiceType, onDelete: 'CASCADE' })
 ServiceType.belongsToMany(Profile, { through: ProfileServiceType })
 
-Profile.belongsToMany(FuelType, { as: 'FuelTypes', through: ProfileFuelType, onDelete: "CASCADE" })
+Profile.belongsToMany(FuelType, { as: 'FuelTypes', through: ProfileFuelType, onDelete: 'CASCADE' })
 FuelType.belongsToMany(Profile, { through: ProfileFuelType })
 
 ProfileType.hasMany(Profile)
 Profile.belongsTo(ProfileType, { as: 'ProfileType' })
 
 Profile.hasOne(AutoInfo, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 AutoInfo.belongsTo(Profile)
 
 Profile.hasMany(ProfileImage, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 ProfileImage.belongsTo(Profile)
 
 // Organization
 
 Profile.hasMany(Organization, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 Organization.belongsTo(Profile)
 
 Organization.hasMany(OrganizationImage, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 OrganizationImage.belongsTo(Organization)
 
 Organization.hasOne(WorkTime, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 WorkTime.belongsTo(Organization)
 
@@ -181,17 +181,17 @@ OrganizationType.hasMany(Organization)
 Organization.belongsTo(OrganizationType)
 
 Organization.hasOne(OrganizationCaffe, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 OrganizationCaffe.belongsTo(Organization)
 
 Organization.hasOne(OrganizationOvernight, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 OrganizationOvernight.belongsTo(Organization)
 
 Organization.hasOne(OrganizationParking, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE'
 })
 OrganizationParking.belongsTo(Organization)
 

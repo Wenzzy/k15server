@@ -1,5 +1,5 @@
-import sequelize from "../db.js"
-import {DataTypes} from "sequelize";
+import sequelize from '../db.js'
+import {DataTypes} from 'sequelize';
 
 export const HelpTicketImage = sequelize.define('help_ticket_image', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},

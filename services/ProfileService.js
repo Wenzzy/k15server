@@ -1,18 +1,15 @@
 import {
     User,
-    Role,
-    Permission,
     Profile,
     AutoInfo,
     ProfileType,
     ServiceType,
-    FuelType,
-    ProfileServiceType
-} from "../models/index.js";
-import ApiError from "../errors/ApiError.js";
-import ProfileDto from "../dtos/ProfileDto.js";
+    FuelType
+} from '../models/index.js';
+import ApiError from '../errors/ApiError.js';
+import ProfileDto from '../dtos/ProfileDto.js';
 
-class RoleService {
+class ProfileService {
 
     defaultAttributes = [
         'id', 'full_name', 'about', 'distance', 'weight', 'volume'
@@ -154,4 +151,4 @@ class RoleService {
     }
 }
 
-export default new RoleService()
+export default new ProfileService()

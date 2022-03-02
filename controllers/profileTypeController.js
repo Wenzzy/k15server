@@ -1,36 +1,22 @@
-import ApiError from "../errors/ApiError.js"
-import profileTypeService from "../services/ProfileTypeService.js";
-import Pagination from "../utils/Pagination.js";
+import profileTypeService from '../services/ProfileTypeService.js';
+import Pagination from '../utils/Pagination.js';
 
 class profileTypeController {
     async create(req, res, next) {
-        try {
-            const {name} = req.body
-            if (!name) {
-                return next(ApiError.badRequest("Param `name` is not defined"))
-            }
-            res.json(await profileTypeService.create(name))
-        } catch (e) {
-            next(e)
-        }
+        const {name} = req.body
+        res.json(await profileTypeService.create(name))
+
     }
 
     async getAll(req, res, next) {
-        try {
-            const {limit, offset} = Pagination.get(req.query)
-            res.json(await profileTypeService.getAll(limit, offset))
-        } catch (e) {
-            next(e)
-        }
+        const {limit, offset} = Pagination.get(req.query)
+        res.json(await profileTypeService.getAll(limit, offset))
+
     }
 
     async getOne(req, res, next) {
-        try {
-            const {id} = req.params
-            res.json(await profileTypeService.getOne(id))
-        } catch (e) {
-            next(e)
-        }
+        const {id} = req.params
+        res.json(await profileTypeService.getOne(id))
     }
 
 }

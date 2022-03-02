@@ -1,4 +1,4 @@
 export default {
-    getAll: "api.profileType.getAll",
-    getOne: "api.profileType.getOne",
+    getAll: 'api.profileType.getAll',
+    getOne: 'api.profileType.getOne',
 }
