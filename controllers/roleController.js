@@ -1,14 +1,14 @@
 import ApiError from '../errors/ApiError.js'
 
 class roleController {
-    async create(req, res, next) {
+    async create(req, res) {
     }
 
-    async getAll(req, res, next) {
+    async getAll(req, res) {
 
     }
 
-    async getOne(req, res, next) {
+    async getOne(req, res) {
 
     }
 
