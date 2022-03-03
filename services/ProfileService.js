@@ -40,30 +40,18 @@ class ProfileService {
     ]
 
     async create(userId, data) {
-        const {
-            full_name,
-            profile_type,
-            service_types,
-            fuel_types,
-            auto_name,
-            auto_number,
-            about,
-            distance,
-            weight,
-            volume
-        } = data
         const profileFind = await Profile.findOne({where: {user_id: userId}})
         if (profileFind) throw ApiError.badRequest('You have an profile.')
         const profile = await Profile.create({
-            full_name,
             userId,
-            about,
-            distance,
-            weight,
-            volume,
+            full_name: data?.full_name,
+            about: data?.about,
+            distance: data?.distance,
+            weight: data?.weight,
+            volume: data?.volume,
             auto_info: {
-                auto_name,
-                auto_number
+                auto_name: data?.auto_name,
+                auto_number: data?.auto_number
             }
         }, {
             include: [
@@ -72,9 +60,9 @@ class ProfileService {
                 }
             ],
         })
-        await profile.setProfileType(profile_type)
-        await profile.setFuelTypes(fuel_types)
-        await profile.setServiceTypes(service_types)
+        await profile.setProfileType(data?.profile_type)
+        await profile.setFuelTypes(data?.fuel_types)
+        await profile.setServiceTypes(data?.service_types)
         return await this.getOne(profile.id)
 
     }
@@ -85,37 +73,25 @@ class ProfileService {
     }
 
     async editOne(userId, data) {
-        const {
-            full_name,
-            profile_type,
-            service_types,
-            fuel_types,
-            auto_name,
-            auto_number,
-            about,
-            distance,
-            weight,
-            volume
-        } = data
         const profileFind = await Profile.findOne({where: {user_id: userId}, attributes: ['id']})
         if (!profileFind) throw ApiError.badRequest('Profile not found.')
         await Profile.update({
-            full_name,
-            about,
-            distance,
-            weight,
-            volume,
-            profileTypeId: profile_type,
+            full_name: data?.full_name,
+            about: data?.about,
+            distance: data?.distance,
+            weight: data?.weight,
+            volume: data?.volume,
+            profileTypeId: data?.profile_type,
         }, {where: {id: profileFind.id}})
 
         await AutoInfo.update({
-            auto_name,
-            auto_number
+            auto_name: data?.auto_name,
+            auto_number: data?.auto_number
         }, {where: {profile_id: profileFind.id}})
 
-        await profileFind.setProfileType(profile_type)
-        await profileFind.setServiceTypes(service_types)
-        await profileFind.setFuelTypes(fuel_types)
+        await profileFind.setProfileType(data?.profile_type)
+        await profileFind.setServiceTypes(data?.service_types)
+        await profileFind.setFuelTypes(data?.fuel_types)
 
         return await this.getOne(profileFind.id)
     }
@@ -141,10 +117,11 @@ class ProfileService {
         }))
     }
 
-    async getAll({limit, offset}) {
+    async getAll({limit, offset, sort_by, sort_method}) {
         return await Profile.findAndCountAll({
             limit,
             offset,
+            order: [[sort_by, sort_method]],
             attributes: this.defaultAttributes,
             include: this.defaultIncludes
         })

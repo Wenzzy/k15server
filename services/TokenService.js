@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken'
 
 class TokenService {
     async generateTokens(payload) {
-        const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_PRIVATE, {expiresIn: "1h"})
-        const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_PRIVATE, {expiresIn: "30d"})
+        const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_PRIVATE, {expiresIn: `${process.env.JWT_ACCESS_EXPIRES_M}m`})
+        const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_PRIVATE, {expiresIn: `${process.env.JWT_REFRESH_EXPIRES_D}d`})
         return {
             accessToken,
             refreshToken

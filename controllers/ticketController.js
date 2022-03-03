@@ -14,12 +14,11 @@ class ticketController {
 
     async editOneMy(req, res) {
         const {id} = req.params
-        res.json(await TicketService.editOne(id, req.body))
+        res.json(await TicketService.editOneMy(id, req.user.id, req.body))
     }
 
     async getAllMy(req, res) {
-        const {id} = req.user
-        res.json(await TicketService.getTicketsForUser(id))
+        res.json(await TicketService.getTicketsForUser(req.user.id, Pagination.get(req.query)))
     }
 
     async getAll(req, res) {

@@ -21,6 +21,7 @@ router.put(
     '/my/:id',
     PermissionMiddleware(ticketPermissions.editOneMy),
     body('service_types').not().isEmpty(),
+    body('address').not().isEmpty(),
     ValidateHandler,
     AsyncErrorHandler(ticketController.editOneMy)
 )
@@ -34,17 +35,17 @@ router.put(
 )
 
 router.get(
+    '/',
+    PermissionMiddleware(ticketPermissions.getAllMy),
+    ValidateHandler,
+    AsyncErrorHandler(ticketController.getAllMy)
+)
+
+router.get(
     '/all',
     PermissionMiddleware(ticketPermissions.getAll),
     ValidateHandler,
     AsyncErrorHandler(ticketController.getAll)
-)
-
-router.get(
-    '/all-my',
-    PermissionMiddleware(ticketPermissions.getAllMy),
-    ValidateHandler,
-    AsyncErrorHandler(ticketController.getAllMy)
 )
 
 router.get(

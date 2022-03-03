@@ -1,6 +1,5 @@
 import {
     User,
-    Profile,
     ServiceType,
     Ticket
 } from '../models/index.js';
@@ -11,7 +10,7 @@ import TicketDto from '../dtos/TicketDto.js';
 class TicketService {
 
     defaultAttributes = [
-        'id', 'address', 'longitude', 'latitude', 'phone', 'use_user_phone'
+        'id', 'address', 'longitude', 'latitude', 'phone', 'status', 'use_user_phone'
     ]
     defaultIncludes = [
         {
@@ -24,14 +23,6 @@ class TicketService {
     ]
 
     async create(userId, data) {
-        const {
-            address,
-            longitude,
-            latitude,
-            phone,
-            use_user_phone,
-            service_types
-        } = data
         const ticketsFind = await Ticket.findAndCountAll({
             where: {
                 user_id: userId,
@@ -39,51 +30,43 @@ class TicketService {
             }
         })
         if (ticketsFind.count > 10) throw ApiError.badRequest('You have maximum active tickets.')
-        const tickets = await Ticket.create({
-            address,
+        const ticket = await Ticket.create({
             userId,
-            longitude,
-            latitude,
-            phone,
-            use_user_phone,
+            address: data?.address,
+            longitude: data?.longitude,
+            latitude: data?.latitude,
+            phone: data?.phone,
+            use_user_phone: data?.use_user_phone,
         })
-        await tickets.setServiceTypes(service_types)
-        return await this.getOne(tickets.id)
+        await ticket.setServiceTypes(data?.service_types)
+        return await this.getOne(ticket.id)
 
     }
 
     async editOne(ticketId, data) {
-        const {
-            address,
-            longitude,
-            latitude,
-            phone,
-            use_user_phone,
-            service_types
-        } = data
-        const ticketFind = await Profile.findOne({where: {id: id}, attributes: ['id']})
+        const ticketFind = await Ticket.findOne({where: {id: ticketId}, attributes: ['id']})
         if (!ticketFind) throw ApiError.badRequest('Ticket not found.')
-        const ticket = await Ticket.update({
-            address,
-            longitude,
-            latitude,
-            phone,
-            use_user_phone,
+        await Ticket.update({
+            address: data?.address,
+            longitude: data?.longitude,
+            latitude: data?.latitude,
+            phone: data?.phone,
+            use_user_phone: data?.use_user_phone,
         }, {
-            where: {id: ticketFind.id},
-            returning: true
+            where: {id: ticketFind.id}
         })
-        console.log(ticket)
-
-
-        // await ticketFind.setServiceTypes(service_types)
-
-        // return await this.getOne(ticketFind.id)
-        return {}
+        await ticketFind.setServiceTypes(data?.service_types)
+        return await this.getOne(ticketFind.id)
     }
 
-    async getTicketsForUser(userId) {
-        return new TicketDto(await Ticket.findOne({
+    async editOneMy(ticketId, userId, data) {
+        const ticketFind = await Ticket.findOne({where: {id: ticketId, userId}, attributes: ["id"]})
+        if (!ticketFind) throw ApiError.noPermissions()
+        return await this.editOne(ticketId, data)
+    }
+
+    async getTicketsForUser(userId, {limit, offset, sort_by, sort_method}) {
+        return await Ticket.findAndCountAll({
             attributes: this.defaultAttributes,
             include: [
                 {
@@ -92,8 +75,11 @@ class TicketService {
                     attributes: []
                 },
                 ...this.defaultIncludes
-            ]
-        }))
+            ],
+            order: [[sort_by, sort_method]],
+            limit,
+            offset,
+        })
     }
 
     async getOne(ticketId) {
@@ -103,10 +89,11 @@ class TicketService {
         }))
     }
 
-    async getAll({limit, offset}) {
+    async getAll({limit, offset, sort_by, sort_method}) {
         return await Ticket.findAndCountAll({
             limit,
             offset,
+            order: [[sort_by, sort_method]],
             attributes: this.defaultAttributes,
             include: this.defaultIncludes
         })

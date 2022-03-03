@@ -1,6 +1,6 @@
 import ApiError from '../errors/ApiError.js';
 
-export default class UserDto {
+export default class AuthDto {
     id
     phone
 

@@ -1,8 +1,8 @@
 import {Router} from 'express';
-import userController from '../controllers/userController.js';
+import authController from '../controllers/authController.js';
 import {body} from 'express-validator';
 import AuthHandler from '../middlewares/AuthHandler.js';
-import userPermissions from '../routePermissions/userPermissions.js';
+import authPermissions from '../routePermissions/authPermissions.js';
 import PermissionHandler from '../middlewares/PermissionHandler.js';
 import ValidateHandler from '../middlewares/ValidateHandler.js';
 import AsyncErrorHandler from '../middlewares/AsyncErrorHandler.js';
@@ -13,7 +13,7 @@ router.post(
     '/send-otp',
     body('phone').isLength({min: 5, max: 20}),
     ValidateHandler,
-    AsyncErrorHandler(userController.sendOtp)
+    AsyncErrorHandler(authController.sendOtp)
 )
 
 router.post(
@@ -21,27 +21,27 @@ router.post(
     body('phone').isLength({min: 5, max: 20}),
     body('otp').not().isEmpty(),
     ValidateHandler,
-    AsyncErrorHandler(userController.login)
+    AsyncErrorHandler(authController.login)
 )
 
 router.delete(
     '/',
     ValidateHandler,
-    AsyncErrorHandler(userController.logout)
+    AsyncErrorHandler(authController.logout)
 )
 
 router.get(
     '/refresh',
     ValidateHandler,
-    AsyncErrorHandler(userController.refresh)
+    AsyncErrorHandler(authController.refresh)
 )
 
 router.get(
     '/all',
     AuthHandler,
-    PermissionHandler(userPermissions.getAll),
+    PermissionHandler(authPermissions.getAll),
     ValidateHandler,
-    AsyncErrorHandler(userController.getAll)
+    AsyncErrorHandler(authController.getAll)
 )
 
 export default router

@@ -6,6 +6,7 @@ export default class TicketDto {
     longitude
     latitude
     phone
+    status
     use_user_phone
     service_types
 
@@ -17,7 +18,9 @@ export default class TicketDto {
         this.longitude = model.longitude
         this.latitude = model.latitude
         this.phone = model.phone
+        this.status = model.status
         this.use_user_phone = model.use_user_phone
         this.service_types = model.ServiceTypes
+
     }
 }

@@ -1,30 +1,38 @@
 import {Otp, User} from '../models/index.js';
 import ApiError from '../errors/ApiError.js';
 import TokenService from './TokenService.js';
-import UserDto from '../dtos/UserDto.js';
+import AuthDto from '../dtos/AuthDto.js';
 import tokenService from './TokenService.js';
 import bcrypt from 'bcrypt'
 import otpGenerator from 'otp-generator'
 
-class UserService {
+class AuthService {
     async sendOtp(phone) {
         let user = await User.findOne({where: {phone}})
+
+        if (!user) {
+            user = await User.create({phone})
+            await user.setRoles([4])
+        }
+
         const otp = otpGenerator.generate(6, {
             digits: true,
             lowerCaseAlphabets: false,
             upperCaseAlphabets: false,
             specialChars: false
         })
-        const expires = Date.now() + (5 * 60 * 1000)
+        const expires = Date.now() + (process.env.OTP_CODE_EXPIRES_M * 60 * 1000)
         const otpHash = await bcrypt.hash(otp, await bcrypt.genSalt(6))
-        if (!user) {
-            user = await User.create({phone})
-            await user.setRoles([1])
-        }
+
         const existsOtp = await Otp.findOne({ where: { user_id: user.id }})
         if (existsOtp) {
+            const codeSentDate = Date.now() - existsOtp.sent_date
+            const resendTime = process.env.OTP_CODE_RESEND_M * 60 * 1000
+            if ( codeSentDate < resendTime )
+                throw ApiError.badRequest(`Please wait ${Math.round((resendTime - codeSentDate) / 1000)} seconds.`)
             existsOtp.otp = otpHash
             existsOtp.expires = expires
+            existsOtp.sent_date = Date.now()
             existsOtp.save()
         } else {
             await Otp.create({otp: otpHash, expires, userId: user.id})
@@ -66,21 +74,21 @@ class UserService {
     }
 
     async generateTokensForUser(user) {
-        const userDto = new UserDto(user)
+        const userDto = new AuthDto(user)
         const tokens = await TokenService.generateTokens({...userDto})
         await tokenService.saveToken(userDto.id, tokens.refreshToken)
         return {...tokens, user: userDto}
     }
 
-    async getAll({limit, offset}) {
-        return await User.findAndCountAll({limit, offset})
+    async getAll({limit, offset, sort_by, sort_method}) {
+        return await User.findAndCountAll({limit, offset, order: [[sort_by, sort_method]]})
     }
     async getOne(userId) {
         return await User.findByPk(userId)
     }
     async checkUserExists(userId) {
-        return !!User.findByPk(userId, {attributes: ['id']})
+        return await User.findByPk(userId, {attributes: ['id']})
     }
 }
 
-export default new UserService()
+export default new AuthService()

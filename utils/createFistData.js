@@ -27,7 +27,7 @@ export default async () => {
 
             {name: 'api.ticket.create', label: 'создать тикет'}, // 11
             {name: 'api.ticket.editOne', label: 'изменить тикет по id'}, // 12
-            {name: 'api.ticket.editOnMye', label: 'изменить свой тикет по id'}, // 13
+            {name: 'api.ticket.editOneMy', label: 'изменить свой тикет по id'}, // 13
             {name: 'api.ticket.getOne', label: 'получить тикет по id'}, // 14
             {name: 'api.ticket.getAllMy', label: 'получить все свои тикеты'}, // 15
             {name: 'api.ticket.getAll', label: 'получить все тикеты'}, // 16
