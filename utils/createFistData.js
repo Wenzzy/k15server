@@ -32,6 +32,9 @@ export default async () => {
             {name: 'api.ticket.getAllMy', label: 'получить все свои тикеты'}, // 15
             {name: 'api.ticket.getAll', label: 'получить все тикеты'}, // 16
 
+            {name: 'api.profile.checkHaveMy', label: 'проверить имеет ли юзер профиль'}, // 17
+
+
         ])
     })
 
@@ -39,7 +42,7 @@ export default async () => {
         administrator: [],
         moderator: [1, 2, 7, 9, 10, 12, 16],
         helper: [],
-        user: [3, 4, 5, 6, 7, 8, 11, 13, 14, 15]
+        user: [3, 4, 5, 6, 7, 8, 11, 13, 14, 15, 17]
     }
     await Role.sync({force: true}).then(async () => {
         await Role.create({name: 'administrator', label: 'администратор'}).then(async role => {

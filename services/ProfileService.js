@@ -126,6 +126,18 @@ class ProfileService {
             include: this.defaultIncludes
         })
     }
+    async checkHaveMy(userId) {
+        return await Profile.findOne({
+            attributes: ['id'],
+            include: [
+                {
+                    model: User,
+                    where: {id: userId},
+                    attributes: []
+                },
+            ]
+        })
+    }
 }
 
 export default new ProfileService()

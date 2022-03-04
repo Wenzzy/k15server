@@ -67,10 +67,16 @@ router.get(
     AsyncErrorHandler(profileController.getAll)
 )
 router.get(
-    '/:id',
+    '/get-one/:id',
     PermissionHandler(profilePermissions.getOne),
     ValidateHandler,
     AsyncErrorHandler(profileController.getOne)
+)
+router.get(
+    '/check-have-my',
+    PermissionHandler(profilePermissions.checkHaveMy),
+    ValidateHandler,
+    AsyncErrorHandler(profileController.checkHaveMy)
 )
 
 export default router

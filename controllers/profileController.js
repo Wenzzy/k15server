@@ -31,6 +31,11 @@ class profileTypeController {
         res.json(await ProfileService.getOne(id))
     }
 
+    async checkHaveMy(req, res) {
+        const {id} = req.user
+        res.json(!!(await ProfileService.checkHaveMy(id)))
+    }
+
 }
 
 export default new profileTypeController()

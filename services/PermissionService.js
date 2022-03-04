@@ -2,7 +2,7 @@ import {Permission} from '../models/index.js';
 import ApiError from '../errors/ApiError.js';
 
 class PermissionService {
-    async checkPermissions(roles, permission) {
+    checkPermissions(roles, permission) {
         let userPermissions = []
         roles.forEach(role => {
             userPermissions = [...userPermissions, ...role.Permissions]

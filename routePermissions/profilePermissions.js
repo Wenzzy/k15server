@@ -5,4 +5,5 @@ export default {
     getMy: 'api.profile.getMy',
     getOne: 'api.profile.getOne',
     getAll: 'api.profile.getAll',
+    checkHaveMy: 'api.profile.checkHaveMy',
 }
